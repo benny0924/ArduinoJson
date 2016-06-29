@@ -31,29 +31,23 @@ namespace Polyfills {
 
 // If Visual Studo <= 2012
 #if defined(_MSC_VER) && _MSC_VER <= 1700
+
 template <typename T>
 bool isInfinity(T x) {
   return !_finite(x);
 }
+
 #else
+
 template <typename T>
 bool isInfinity(T x) {
+  // Workaround for libs that #undef isinf
+  // https://github.com/bblanchon/ArduinoJson/issues/284
+  using namespace std;
+
   return isinf(x);
 }
 
-#if defined(_GLIBCXX_HAVE_ISINFL) && _GLIBCXX_HAVE_ISINFL
-template <>
-inline bool isInfinity<double>(double x) {
-  return isinfl(x);
-}
-#endif
-
-#if defined(_GLIBCXX_HAVE_ISINFF) && _GLIBCXX_HAVE_ISINFF
-template <>
-inline bool isInfinity<float>(float x) {
-  return isinff(x);
-}
-#endif
 #endif
 }
 }

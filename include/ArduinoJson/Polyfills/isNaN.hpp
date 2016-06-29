@@ -40,6 +40,10 @@ bool isNaN(T x) {
 
 template <typename T>
 bool isNaN(T x) {
+  // Workaround for libs that #undef isnan
+  // https://github.com/bblanchon/ArduinoJson/issues/284
+  using namespace std;
+
   return isnan(x);
 }
 
