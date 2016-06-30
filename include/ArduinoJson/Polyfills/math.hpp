@@ -26,6 +26,12 @@
 #endif
 #endif
 
+// Workaround for libs that #undef isnan or isinf
+// https://github.com/bblanchon/ArduinoJson/issues/284
+#if !defined(isnan) || !defined(isinf)
+namespace std {}
+#endif
+
 namespace ArduinoJson {
 namespace Polyfills {
 
@@ -33,11 +39,25 @@ namespace Polyfills {
 #if defined(_MSC_VER) && _MSC_VER <= 1700
 
 template <typename T>
+bool isNaN(T x) {
+  return _isnan(x) != 0;
+}
+
+template <typename T>
 bool isInfinity(T x) {
   return !_finite(x);
 }
 
 #else
+
+template <typename T>
+bool isNaN(T x) {
+  // Workaround for libs that #undef isnan
+  // https://github.com/bblanchon/ArduinoJson/issues/284
+  using namespace std;
+
+  return isnan(x);
+}
 
 template <typename T>
 bool isInfinity(T x) {
