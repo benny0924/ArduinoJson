@@ -64,15 +64,15 @@ bool isNaN(T x) {
 
 #if defined(_GLIBCXX_HAVE_ISNANL) && _GLIBCXX_HAVE_ISNANL
 template <>
-inline bool isInfinity<double>(double x) {
-  return isinfl(x);
+inline bool isNaN<double>(double x) {
+  return isnanl(x);
 }
 #endif
 
 #if defined(_GLIBCXX_HAVE_ISNANF) && _GLIBCXX_HAVE_ISNANF
 template <>
-inline bool isInfinity<float>(float x) {
-  return isinff(x);
+inline bool isNaN<float>(float x) {
+  return isnanf(x);
 }
 #endif
 
