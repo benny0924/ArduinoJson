@@ -2,5 +2,5 @@
 set PATH=C:\MinGW\bin;%PATH:C:\Program Files\Git\usr\bin;=%
 
 cmake -G "MinGW Makefiles" .
-cmake --build .
+make
 bin\ArduinoJsonTests.exe
